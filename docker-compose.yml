@@ -1,0 +1,34 @@
+version: '3.7'
+
+services:
+  app-server:
+    image: ${DOCKER_REGISTRY-}appserver
+    build:
+      context: .
+      dockerfile: App-Server/Dockerfile
+    environment:
+      ASPNETCORE_ENVIRONMENT: "Development"
+      DB_CONNECTION_STRING: "host=postgres;port=5432;database=appdb;username=dbuser;password=y0beSR5aSK1480QJo3kw"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    ports:
+      - '80:80'
+      - '443:443'
+
+  postgres:
+    image: postgres
+    volumes:
+      - db_volume:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: "dbuser"
+      POSTGRES_PASSWORD: "y0beSR5aSK1480QJo3kw"
+      POSTGRES_DB: "appdb"
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U dbuser -d appdb" ]
+      interval: 2s
+      timeout: 2s
+      retries: 20
+
+volumes:
+  db_volume:
