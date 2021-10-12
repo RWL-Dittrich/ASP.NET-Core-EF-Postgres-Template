@@ -26,7 +26,7 @@ DONT USE ANY PUNCTUATION OR SPECIAL CHARACTERS IN THE MIGRATION NAME!
 **If you want to delete a migration that hasn't been applied yet use the following command:**
 
 ```
-dotnet ef migrations remove --project RMA-Database -s RMA-Web --force
+dotnet ef migrations remove --project App-Database -s App-Server --force
 ```
 
 # Authors
